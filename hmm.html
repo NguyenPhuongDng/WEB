@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thư Gửi Người Ấy</title>
+    <style>
+        /* Nền gradient chuyển động mượt mà */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffebee, #f3e5f5, #e0f2f1, #fce4ec); 
+            background-size: 300% 300%;
+            animation: gradientBG 15s ease infinite;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden; 
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Lớp nền lấp lánh phụ */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            animation: starsSpin 100s linear infinite;
+        }
+
+        @keyframes starsSpin {
+            from { transform: rotate(0deg) scale(1.2); }
+            to { transform: rotate(360deg) scale(1.2); }
+        }
+
+        /* --- BẮT ĐẦU CẤU TRÚC PHONG THƯ --- */
+        .container {
+            position: relative;
+            cursor: pointer; 
+            z-index: 10;
+            perspective: 1200px; /* Thêm hiệu ứng 3D cho nắp thư */
+            transform: scale(1);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Responsive: Thu nhỏ một chút trên điện thoại */
+        @media (max-width: 500px) {
+            .container {
+                transform: scale(0.75);
+            }
+            .container.open {
+                transform: scale(0.75) translateY(50px);
+            }
+        }
+
+        .container:hover {
+            transform: scale(1.03) translateY(-5px); 
+        }
+
+        /* Phong bì thư - Đã được làm to ra */
+        .envelope {
+            position: relative;
+            width: 460px; 
+            height: 300px;
+            background-color: #fce4ec; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2); 
+            border-radius: 10px; 
+        }
+
+        /* Mặt trước của phong bì */
+        .front {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            /* Cập nhật tỷ lệ viền theo kích thước mới */
+            border-right: 230px solid #f8bbd0; 
+            border-left: 230px solid #f8bbd0;
+            border-bottom: 160px solid #f48fb1;
+            border-top: 140px solid transparent;
+            z-index: 3;
+            pointer-events: none; 
+            border-radius: 0 0 10px 10px;
+        }
+
+        /* Dấu sáp (wax seal) - Đặt lại vị trí chính giữa nắp */
+        .wax-seal {
+            position: absolute;
+            top: 135px; /* Ngay chóp nắp thư */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 65px;
+            height: 65px;
+            background-color: #c2185b; 
+            border-radius: 50%;
+            z-index: 5;
+            box-shadow: 0 4px 15px rgba(194, 24, 91, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 1.8rem;
+            pointer-events: none;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .wax-seal::after {
+            content: "♥"; 
+        }
+
+        /* Nắp thư (flaps) */
+        .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-top: 165px solid #ffebee; 
+            border-right: 230px solid transparent;
+            border-left: 230px solid transparent;
+            border-bottom: 135px solid transparent;
+            z-index: 4; 
+            transform-origin: top; 
+            /* Chuyển động gập 3D mượt mà */
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), z-index 0s 0.3s;
+            border-radius: 10px 10px 0 0;
+        }
+
+        /* --- LÁ THƯ BÊN TRONG (CẢI TIẾN) --- */
+        .letter {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            width: 420px; /* To ra tương xứng */
+            height: 270px;
+            background-color: #fff;
+            z-index: 2; 
+            display: flex;
+            flex-direction: column; 
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            box-sizing: border-box; 
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            /* Thêm độ nảy khi trượt lên */
+            transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.1s;
+            text-align: center;
+        }
+
+        .letter::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="2" cy="2" r="1" fill="%23f8bbd0" opacity="0.3"/></svg>');
+            opacity: 0.15;
+            z-index: -1;
+        }
+
+        .letter p {
+            font-size: 1.6rem; /* Chữ to hơn */
+            margin: 0 0 25px 0;
+            color: #d81b60;
+            font-weight: 600;
+        }
+
+        /* --- NÚT LINK TRÁI TIM --- */
+        .secret-link {
+            position: relative;
+            cursor: pointer;
+            z-index: 10;
+            text-decoration: none;
+        }
+
+        .heart-link {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            background-color: #e91e63;
+            transform: rotate(-45deg);
+            border-radius: 12px; 
+            box-shadow: 0 0 20px rgba(233, 30, 99, 0.6);
+            animation: heartPulse 1.2s infinite alternate; 
+            color: transparent; 
+            transition: all 0.3s;
+        }
+
+        .heart-link::before {
+            content: "MỞ LINK";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .heart-link::after {
+            content: "";
+            position: absolute;
+            top: -40px;
+            left: 0;
+            width: 80px;
+            height: 80px;
+            background-color: #e91e63;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(233, 30, 99, 0.4);
+        }
+
+        .heart-link-round {
+            position: absolute;
+            top: 0;
+            left: 40px;
+            width: 80px;
+            height: 80px;
+            background-color: #e91e63;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(233, 30, 99, 0.4);
+        }
+
+        @keyframes heartPulse {
+            from { transform: rotate(-45deg) scale(0.95); }
+            to { transform: rotate(-45deg) scale(1.08); }
+        }
+
+        .secret-link:hover .heart-link,
+        .secret-link:hover .heart-link::after,
+        .secret-link:hover .heart-link-round {
+            background-color: #c2185b; 
+        }
+
+        /* Hướng dẫn mở */
+        .hint {
+            position: absolute;
+            bottom: -60px;
+            width: 100%;
+            text-align: center;
+            color: #c2185b;
+            font-size: 1.3rem;
+            font-weight: bold;
+            pointer-events: none;
+            animation: bounce 1.5s infinite alternate; 
+            transition: opacity 0.3s ease;
+            text-shadow: 0 2px 5px rgba(255,255,255,0.8);
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-12px); }
+        }
+
+        /* --- TRẠNG THÁI MỞ --- */
+        .container.open .flap {
+            transform: rotateX(180deg);
+            z-index: 1; 
+        }
+
+        .container.open .wax-seal {
+            opacity: 0; /* Làm mờ dấu sáp */
+            transform: translateX(-50%) scale(0.5); /* Thu nhỏ lại như bị vỡ */
+        }
+
+        .container.open .letter {
+            transform: translateY(-200px) scale(1.05); /* Rút lên cao và phóng to nhẹ */
+            z-index: 5; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15); /* Đổ bóng mạnh hơn khi nổi lên */
+        }
+        
+        .container.open .hint {
+            opacity: 0;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <svg class="stars" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+        <circle cx="10%" cy="20%" r="2" fill="#fff" opacity="0.4"/>
+        <circle cx="85%" cy="75%" r="3" fill="#fff" opacity="0.6"/>
+        <circle cx="50%" cy="10%" r="2" fill="#fff" opacity="0.3"/>
+        <circle cx="70%" cy="30%" r="1" fill="#fff" opacity="0.5"/>
+        <circle cx="20%" cy="80%" r="2" fill="#fff" opacity="0.4"/>
+    </svg>
+
+    <div class="container" id="mailContainer">
+        <div class="envelope">
+            <div class="flap"></div>
+            
+            <div class="letter">
+                <p>Mình có điều muốn nói...</p>
+                <a href="https://www.youtube.com" target="_blank" class="secret-link" id="secretLink">
+                    <span class="heart-link">
+                        <span class="heart-link-round"></span>
+                    </span>
+                </a>
+            </div> 
+
+            <div class="front"></div>
+            <div class="wax-seal"></div> 
+        </div>
+        <div class="hint">Chạm vào thư để mở 💌</div>
+    </div>
+
+    <script>
+        const container = document.getElementById('mailContainer');
+        const secretLink = document.getElementById('secretLink');
+
+        // Bấm vào khu vực thư để mở/đóng
+        container.addEventListener('click', (event) => {
+            // Chỉ toggle nếu bấm KHÔNG phải vào cái link trái tim
+            if (!event.target.closest('#secretLink')) {
+                container.classList.toggle('open');
+            }
+        });
+
+        // Ngăn việc bấm vào link làm nắp thư đóng lại
+        secretLink.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
+    </script>
+
+</body>
+</html>
