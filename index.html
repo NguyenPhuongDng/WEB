@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thư Gửi Người Ấy</title>
+<title>Thư Gửi Người Ấy - Rose's Secret</title>
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -30,7 +30,7 @@ body {
 }
 
 @keyframes petalFall {
-  0%   { opacity: 0;   transform: translateY(0)      rotate(0deg); }
+  0%   { opacity: 0;   transform: translateY(0)       rotate(0deg); }
   8%   { opacity: 0.6; }
   92%  { opacity: 0.4; }
   100% { opacity: 0;   transform: translateY(105vh)  rotate(300deg); }
@@ -61,27 +61,26 @@ body {
   transform: scale(0.7);
 }
 
-/* --- Phong bì --- */
+/* --- Phong bì - Màu trắng be --- */
 .envelope {
   position: relative;
   width: 520px;
   height: 360px;
-  background: linear-gradient(150deg, #fde8ef 0%, #fbbdd4 100%);
+  background: linear-gradient(150deg, #fdfbf7 0%, #f4ebd8 100%); 
   border-radius: 12px;
-  box-shadow: 0 24px 70px rgba(233,30,99,0.35), 0 0 0 1px rgba(212,175,122,0.3);
+  box-shadow: 0 24px 70px rgba(180, 170, 150, 0.35), 0 0 0 1px rgba(212,175,122,0.3);
 }
 
-/* Nắp trên — mở bằng rotateX */
+/* Nắp trên */
 .flap-top {
   position: absolute;
   top: 0; left: 0;
   width: 0; height: 0;
   border-left:  260px solid transparent;
   border-right: 260px solid transparent;
-  border-top:   180px solid #f9c8db;
+  border-top:   180px solid #f9f3e6;
   border-radius: 12px 12px 0 0;
   transform-origin: top center;
-  /* Bước 1: nắp mở trước — 0.65s */
   transition: transform 0.65s cubic-bezier(.4,0,.2,1),
               border-top-color 0.4s;
   z-index: 4;
@@ -92,7 +91,7 @@ body {
 .flap-left {
   position: absolute; bottom: 0; left: 0;
   width: 0; height: 0;
-  border-bottom: 180px solid #f9b8cd;
+  border-bottom: 180px solid #f0e4cc;
   border-right:  200px solid transparent;
   border-radius: 0 0 0 12px;
   z-index: 2; pointer-events: none;
@@ -100,7 +99,7 @@ body {
 .flap-right {
   position: absolute; bottom: 0; right: 0;
   width: 0; height: 0;
-  border-bottom: 180px solid #f7aac4;
+  border-bottom: 180px solid #ebe0c8;
   border-left:   200px solid transparent;
   border-radius: 0 0 12px 0;
   z-index: 2; pointer-events: none;
@@ -108,29 +107,27 @@ body {
 .flap-bottom {
   position: absolute; bottom: 0; left: 0;
   width: 0; height: 0;
-  border-right:  260px solid #f48fb1;
-  border-left:   260px solid #f48fb1;
-  border-bottom: 180px solid #e8799f;
+  border-right:  260px solid #e3d5b8;
+  border-left:   260px solid #e3d5b8;
+  border-bottom: 180px solid #d9c8a9;
   border-top:    180px solid transparent;
   border-radius: 0 0 12px 12px;
   z-index: 3; pointer-events: none;
 }
 
-/* Dấu sáp */
-.wax-seal {
+/* Nơ Đỏ (Thay thế cho vòng tròn cũ) */
+.big-bow {
   position: absolute;
-  bottom: 24px; left: 50%;
+  bottom: 16px; /* Nằm đúng vị trí vòng tròn cũ */
+  left: 50%;
   transform: translateX(-50%);
-  width: 68px; height: 68px;
-  background: radial-gradient(circle at 35% 35%, #e53935, #880e4f);
-  border-radius: 50%;
-  z-index: 6;
-  box-shadow: 0 4px 18px rgba(136,14,79,0.55), 0 0 0 3px rgba(212,175,122,0.55);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.7rem; color: rgba(255,255,255,0.95);
-  pointer-events: none;
-  /* Bước 1: ẩn cùng lúc nắp mở */
+  font-size: 4.5rem; /* Kích thước nơ */
+  z-index: 6; 
   transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+  /* Nếu bạn muốn nơ nằm đúng ngay chính giữa tâm phong bì, 
+     hãy đổi `bottom: 16px;` thành `top: 50%;` và 
+     `transform: translateX(-50%);` thành `transform: translate(-50%, -50%);` */
 }
 
 /* --- Lá thư --- */
@@ -143,20 +140,18 @@ body {
   z-index: 2;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  padding: 36px 40px;
+  padding: 15px 25px; 
   text-align: center;
   overflow: hidden;
-
-  /* Bước 2: lá thư trượt lên — bắt đầu SAU khi nắp mở xong (delay 0.6s) */
   transition: transform 0.6s cubic-bezier(.22,.68,0,1.3) 0.6s;
 }
 
-/* Watermark mờ */
+/* Watermark Nơ mờ */
 .letter::before {
-  content: "❤";
+  content: "🎀";
   position: absolute;
   font-size: 13rem;
-  color: rgba(233,30,99,0.04);
+  color: rgba(233, 30, 99, 0.04);
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
@@ -174,30 +169,31 @@ body {
   pointer-events: none;
 }
 
-.letter-inner { position: relative; z-index: 2; width: 100%; }
-
-/* Nội dung thư: ẩn ban đầu, hiện SAU KHI lá thư đã lên xong (delay = 0.6 + 0.6 = 1.2s) */
-.letter-salutation {
-  font-family: 'Dancing Script', cursive;
-  font-size: 1.5rem; color: #880e4f;
-  margin-bottom: 10px;
-  opacity: 0; transform: translateY(8px);
-  transition: opacity 0.4s 1.2s, transform 0.4s 1.2s;
+/* Chỉnh sửa để căn giữa nút bấm và nội dung thư */
+.letter-inner { 
+  position: relative; 
+  z-index: 2; 
+  width: 100%; 
+  height: 100%; 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center; 
+  gap: 15px;
 }
+
+/* Nội dung thư */
 .letter-body {
   font-family: 'Lora', serif; font-style: italic;
-  font-size: 1.15rem; color: #6b2d4a; line-height: 1.85;
-  margin-bottom: 20px;
+  font-size: 0.85rem; 
+  color: #6b2d4a; line-height: 1.6;
   opacity: 0; transform: translateY(8px);
   transition: opacity 0.4s 1.4s, transform 0.4s 1.4s;
+  overflow-y: auto; 
+  max-height: 80%;
 }
-.letter-sign {
-  font-family: 'Dancing Script', cursive;
-  font-size: 1.3rem; color: #e91e63;
-  margin-bottom: 22px;
-  opacity: 0; transform: translateY(8px);
-  transition: opacity 0.4s 1.6s, transform 0.4s 1.6s;
-}
+
+/* Nút bấm */
 .heart-btn {
   display: inline-flex; align-items: center; gap: 8px;
   background: linear-gradient(135deg, #e91e63, #ad1457);
@@ -208,16 +204,12 @@ body {
   opacity: 0; transform: translateY(8px);
   transition: opacity 0.4s 1.8s, transform 0.4s 1.8s, box-shadow 0.2s, scale 0.2s;
   position: relative; z-index: 30;
+  cursor: pointer;
+  flex-shrink: 0;
 }
 .heart-btn:hover {
   box-shadow: 0 10px 30px rgba(233,30,99,0.55);
   scale: 1.05;
-}
-
-.btn-heart { animation: beat 1.3s ease-in-out infinite; display: inline-block; }
-@keyframes beat {
-  0%, 100% { transform: scale(1); }
-  25%       { transform: scale(1.3); }
 }
 
 /* --- Gợi ý --- */
@@ -240,36 +232,25 @@ body {
 
 .open .flap-top {
   transform: rotateX(-180deg);
-  border-top-color: #f5c0d2;
+  border-top-color: #eee3cc;
   z-index: 1;
 }
 
-.open .wax-seal {
+/* Ẩn nơ khi mở */
+.open .big-bow {
   opacity: 0;
   transform: translateX(-50%) scale(0.6);
 }
 
 .open .letter { transform: translateY(-230px); }
 
-.open .letter-salutation,
 .open .letter-body,
-.open .letter-sign,
 .open .heart-btn {
   opacity: 1;
   transform: translateY(0);
 }
 
 .open .hint { opacity: 0; }
-
-/* Khi đóng: ẩn nội dung nhanh, không delay */
-.closing .letter-salutation,
-.closing .letter-body,
-.closing .letter-sign,
-.closing .heart-btn {
-  opacity: 0 !important;
-  transform: translateY(6px) !important;
-  transition: opacity 0.15s 0s, transform 0.15s 0s !important;
-}
 </style>
 </head>
 <body>
@@ -285,23 +266,24 @@ body {
       <div class="flap-right"></div>
       <div class="flap-bottom"></div>
 
+      <div class="big-bow">🎀</div>
+
       <div class="letter">
         <div class="letter-inner">
-          <div class="letter-salutation">Gửi</div>
           <div class="letter-body">
-            Buồn Ỉa,<br>
-            Buồn Ỉa —<br>
-            Buồn Ỉa.
+            <p>
+              Rose xin chào bạn thân yêu 🌸🌸🌸. Một chút đáng yêu xin dành tặng các cậu nhaaa . Đến với chúng tớ các cậu sẽ được tự tin khoe cá tính với rất nhiều bộ váy xinh lung linh , nhiều kiểu dáng và đa dạng phong cách khác nhau , đáng yêu nè , quý phái và quyến rũ nè ❤️❤️❤️Mỗi bông hoa đều có một cách toả hương và nét đẹp riêng . Cùng chúng mình toả sáng , tự tin khoe cá tính nhé 💋💋💋
+            </p>
+            <p>
+              Hãy cho chúng mình khảo sát một chút bằng cách click vào chữ <span class="highlight">ROSE 👇</span> bên dưới nhaaa . Cảm ơn các cậu rất nhiều vì đã dành thời gian đọc thư của chúng mình 💖💖💖
+            </p>
           </div>
-          <div class="letter-sign">Ấn đê 🔻</div>
-          <a href="https://baohaiphong.vn/danh-sach-nhung-nguoi-trung-cu-dai-bieu-hdnd-thanh-pho-hai-phong-nhiem-ky-2026-2031-538363.html"
-             target="_blank" class="heart-btn" id="heartBtn">
-            <span class="btn-heart">❤</span> Mở điều bí mật
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLScGJkPRVoVFqNNIpKbVfIE2z7aF4IgTGz7m0AkYj62Cw3brCg/viewform" target="_blank" class="heart-btn" id="heartBtn">
+            ROSE
           </a>
         </div>
       </div>
 
-      <div class="wax-seal">♥</div>
     </div>
 
     <div class="hint">💌 Chạm vào thư để mở</div>
@@ -313,10 +295,10 @@ const wrap    = document.getElementById('envWrap');
 const btn     = document.getElementById('heartBtn');
 const letter  = wrap.querySelector('.letter');
 const flapTop = wrap.querySelector('.flap-top');
-const seal    = wrap.querySelector('.wax-seal');
+const bow     = wrap.querySelector('.big-bow');
 const petalContainer = document.getElementById('petals');
 
-const chars = ['🌸','🌺','❤','💕','🌹','💖'];
+const chars = ['🌸','🌺','🎀','🎀','🌹','🎀','✨'];
 
 function addPetal() {
   const p = document.createElement('div');
@@ -337,37 +319,31 @@ for (let i = 0; i < 8; i++) setTimeout(addPetal, i * 150);
 let isAnimating = false;
 
 function openEnvelope() {
-  // Reset về transition mặc định cho lúc mở
   letter.style.transition  = 'transform 0.6s cubic-bezier(.22,.68,0,1.3) 0.6s';
   flapTop.style.transition = 'transform 0.65s cubic-bezier(.4,0,.2,1), border-top-color 0.4s';
-  seal.style.transition    = 'opacity 0.35s ease, transform 0.35s ease';
+  bow.style.transition     = 'opacity 0.35s ease, transform 0.35s ease';
   wrap.classList.add('open');
   setTimeout(() => { isAnimating = false; }, 2000);
 }
 
 function closeEnvelope() {
-  // Bước 1: ẩn nội dung thư nhanh
   wrap.classList.add('closing');
 
   setTimeout(() => {
-    // Bước 2: lá thư trượt vào trước (không delay)
     letter.style.transition  = 'transform 0.55s ease 0s';
-    // Bước 3: nắp đóng SAU KHI lá thư đã vào (delay = 0.5s)
     flapTop.style.transition = 'transform 0.6s cubic-bezier(.4,0,.2,1) 0.5s, border-top-color 0.3s 0.5s';
-    // Dấu sáp hiện lại sau khi nắp bắt đầu đóng
-    seal.style.transition    = 'opacity 0.4s 0.6s, transform 0.4s 0.6s';
+    bow.style.transition     = 'opacity 0.4s 0.6s, transform 0.4s 0.6s';
 
     wrap.classList.remove('open');
 
-    // Dọn dẹp sau khi xong
     setTimeout(() => {
       wrap.classList.remove('closing');
       letter.style.transition  = '';
       flapTop.style.transition = '';
-      seal.style.transition    = '';
+      bow.style.transition     = '';
       isAnimating = false;
     }, 1300);
-  }, 180); // chờ nội dung ẩn xong
+  }, 180); 
 }
 
 wrap.addEventListener('click', (e) => {
