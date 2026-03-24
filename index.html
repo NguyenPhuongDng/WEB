@@ -208,6 +208,8 @@ body {
   /* Trạng thái mặc định (Lúc đóng nhanh) */
   opacity: 0; transform: translateY(8px);
   transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s, scale 0.2s;
+
+  pointer-events: none;
 }
 .heart-btn:hover {
   box-shadow: 0 10px 30px rgba(233,30,99,0.55);
@@ -257,6 +259,7 @@ body {
 .open .heart-btn {
   opacity: 1; transform: translateY(0);
   transition: opacity 0.4s 1.4s, transform 0.4s 1.4s, box-shadow 0.2s, scale 0.2s;
+  pointer-events: auto;
 }
 
 .open .hint { opacity: 0; }
